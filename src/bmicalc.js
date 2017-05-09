@@ -1,4 +1,5 @@
-var BMIClaclModel = {
+var BMICalclModel = {
+	currentForm: null,
 
 }
 
@@ -6,8 +7,13 @@ var BMICalcController = {
 
 	init: function (){
 
+		BMICalclModel.currentForm = 'imperial';
 		//Initialize views
 		BMICalcView.init();
+	},
+
+	getCurrentForm: function(){
+		return BMICalclModel.currentForm;
 	}
 
 }
@@ -15,7 +21,11 @@ var BMICalcController = {
 
 var BMICalcView = {
 	init: function (){
+
+		let currentForm = BMICalcController.getCurrentForm();
+
 		this.calcContainer = document.getElementById('bmicalc');
+		this.calcContainer.className += currentForm;
 
 		this.imperialFormHtml = `
 		<div id="bmicalc-form">
