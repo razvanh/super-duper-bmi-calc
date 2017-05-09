@@ -4,6 +4,14 @@ var BMIClaclModel = {
 
 var BMICalcController = {
 
+	init: function (){
+
+		//Initialize views
+
+		BMICalcImperialFormView.init();
+		BMICalcResultsView.init();
+	}
+
 }
 
 var BMICalcImperialFormView = {
