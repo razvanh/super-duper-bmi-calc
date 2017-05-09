@@ -1,5 +1,6 @@
 var BMICalclModel = {
 	currentForm: null,
+	BMI: null,
 
 }
 
@@ -14,6 +15,14 @@ var BMICalcController = {
 
 	getCurrentForm: function(){
 		return BMICalclModel.currentForm;
+	},
+
+	calculateBMI: function(mode, measurements){
+		switch (mode) {
+			case 'imperial':
+				let height = (Number(12*measurements.ft) + Number(measurements.in));
+				return (measurements.weight/(height * height)) * 703;
+		}
 	}
 
 }
@@ -27,7 +36,38 @@ var BMICalcView = {
 		this.calcContainer = document.getElementById('bmicalc');
 		this.calcContainer.className += currentForm;
 
-		this.imperialFormHtml = `
+
+		this.renderForm();
+		this.renderResults();
+
+		document.addEventListener('input',function(e){
+			let target = e.target || e.srcElement
+			if (target) {
+				switch (target.id) {
+					case 'bmicalc-weight-imperial':
+					case 'bmicalc-height-ft':
+					case 'bmicalc-height-in':
+						let weight = document.getElementById('bmicalc-weight-imperial').value;
+						let ft = document.getElementById('bmicalc-height-ft').value;
+						let inch = document.getElementById('bmicalc-height-in').value;
+
+						if (weight && ft && inch) {
+							let result = BMICalcController.calculateBMI('imperial',{weight:weight,ft:ft,in:inch});
+							BMICalclModel.BMI = result;
+							BMICalcView.renderResults();
+						}
+						
+
+						break;
+				}
+			}
+
+		 });
+
+	},
+
+	renderForm: function(){
+		let imperialFormHtml = `
 		<div id="bmicalc-form">
 			<form action="#" id="bmicalc-imperial">
 				<div class="bmicalc-heading">
@@ -61,10 +101,15 @@ var BMICalcView = {
 		</div>	
 		`;
 
-		this.resultsHTML = `
+		this.calcContainer.insertAdjacentHTML('afterbegin', imperialFormHtml) ;
+	},
+
+	renderResults: function () {
+		let BMI = BMICalclModel.BMI ? BMICalclModel.BMI.toFixed(1) : '--.-' ;
+		let resultsHTML = `
 			<div id="bmicalc-result">
 				<div id="bmicalc-number">
-					0
+					${BMI}
 				</div>
 
 				<div id="bmicalc-resources">
@@ -72,21 +117,11 @@ var BMICalcView = {
 				</div>
 			</div>
 		`;
+		if (document.contains(document.getElementById('bmicalc-result'))) {
+			document.getElementById('bmicalc-result').remove();
+		} 
+		this.calcContainer.insertAdjacentHTML('beforeend', resultsHTML);
 
-		this.render();
-
-		document.addEventListener('change',function(e){
-			if (e.target && e.target.id == 'bmicalc-weight-imperial') {
-				console.log(e.target.id);
-			}
-
-		 });
-
-	},
-
-	render: function(){
-		this.calcContainer.insertAdjacentHTML('afterbegin', this.imperialFormHtml) ;
-		this.calcContainer.insertAdjacentHTML('beforeend', this.resultsHTML);
 	}
 }
 
