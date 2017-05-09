@@ -1,0 +1,11 @@
+{
+  "name": "uihc-bmi-calculator",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "babel src -d lib"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.0.0",
+    "babel-preset-env": "^1.4.0"
+  }
+}
