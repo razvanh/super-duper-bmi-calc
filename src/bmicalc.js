@@ -51,6 +51,16 @@ var BMICalcView = {
 						let ft = document.getElementById('bmicalc-height-ft').value;
 						let inch = document.getElementById('bmicalc-height-in').value;
 
+						if (inch < 0 ) {
+							target.value = 0;
+							inch = 0;
+						}
+
+						if (inch > 11) {
+							target.value = 11;
+							inch = 11;
+						}
+
 						if (weight && ft && inch) {
 							let result = BMICalcController.calculateBMI('imperial',{weight:weight,ft:ft,in:inch});
 							BMICalclModel.BMI = result;
