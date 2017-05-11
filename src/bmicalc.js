@@ -1,5 +1,5 @@
 var BMICalclModel = {
-	currentForm: null,
+	currentForm: 'standard',
 	BMI: null,
 
 }
@@ -8,7 +8,7 @@ var BMICalcController = {
 
 	init: function (){
 
-		BMICalclModel.currentForm = 'metric';
+		BMICalclModel.currentForm = 'standard';
 		//Initialize views
 		BMICalcView.init();
 	},
@@ -23,7 +23,7 @@ var BMICalcController = {
 
 	calculateBMI: function(mode, measurements){
 		switch (mode) {
-			case 'imperial':
+			case 'standard':
 				let height = (Number(12*measurements.ft) + Number(measurements.in));
 				return (measurements.weight/(height * height)) * 703;
 			case 'metric':
@@ -48,13 +48,12 @@ var BMICalcView = {
 		this.renderResults();
 
 		document.addEventListener('input',function(e){
-			let target = e.target || e.srcElement
-			if (target) {
+			let target = e.target || e.srcElement;
 				switch (target.id) {
-					case 'bmicalc-weight-imperial':
+					case 'bmicalc-weight-standard':
 					case 'bmicalc-height-ft':
 					case 'bmicalc-height-in':
-						let lbs = document.getElementById('bmicalc-weight-imperial').value;
+						let lbs = document.getElementById('bmicalc-weight-standard').value;
 						let ft = document.getElementById('bmicalc-height-ft').value;
 						let inch = document.getElementById('bmicalc-height-in').value;
 
@@ -69,7 +68,7 @@ var BMICalcView = {
 						}
 
 						if (lbs && ft && inch) {
-							let result = BMICalcController.calculateBMI('imperial',{weight:lbs,ft:ft,in:inch});
+							let result = BMICalcController.calculateBMI('standard',{weight:lbs,ft:ft,in:inch});
 							BMICalclModel.BMI = result;
 							BMICalcView.renderResults();
 						}
@@ -87,16 +86,26 @@ var BMICalcView = {
 							BMICalcView.renderResults();
 						}
 				}
-			}
 
 		 });
+
+		document.addEventListener('click', function (e){
+			let target = e.target || e.srcElement;
+
+			if (target.className === 'bmicalc-units-switcher') {
+				e.preventDefault();
+				let currentForm = BMICalclModel.currentForm;
+				BMICalclModel.currentForm = (currentForm === 'standard' ? 'metric' : 'standard');
+				BMICalcView.renderForm(BMICalclModel.currentForm);
+			}
+		});
 
 	},
 
 	renderForm: function(form){
-		const imperialFormHtml = `
+		const standardFormHtml = `
 		<div id="bmicalc-form">
-			<form action="#" id="bmicalc-imperial">
+			<form action="#" id="bmicalc-standard">
 				<div class="bmicalc-heading">
 					<h2>Body mass index (BMI)</h2>
 					<p class="bmicalc-subhead">A measure of body fat in adults</p>	
@@ -105,8 +114,8 @@ var BMICalcView = {
 				<fieldset>
 					<legend>Weight</legend>
 					<p>
-						<input type="number" required id="bmicalc-weight-imperial">
-						<label for="bmicalc-weight-imperial">lb</label>
+						<input type="number" required id="bmicalc-weight-standard">
+						<label for="bmicalc-weight-standard">lb</label>
 					</p>
 				</fieldset>
 				
@@ -125,6 +134,7 @@ var BMICalcView = {
 				</fieldset>
 
 			</form>
+			<p><a href="#" class="bmicalc-units-switcher">Switch to metric units</a></p>
 		</div>	
 		`;
 
@@ -154,10 +164,15 @@ var BMICalcView = {
 				</fieldset>
 
 			</form>
+			<p><a href="#" class="bmicalc-units-switcher">Switch to standard units</a></p>
 		</div>	
 		`;
 
-		let currentForm = form === 'imperial' ? imperialFormHtml : metricFormHtml;
+		let currentForm = form === 'standard' ? standardFormHtml : metricFormHtml;
+
+		if (document.contains(document.getElementById('bmicalc-form'))) {
+			document.getElementById('bmicalc-form').remove();
+		}
 
 		this.calcContainer.insertAdjacentHTML('afterbegin', currentForm) ;
 	},
