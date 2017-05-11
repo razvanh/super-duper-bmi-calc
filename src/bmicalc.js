@@ -1,8 +1,8 @@
 var BMICalclModel = {
 	currentForm: 'standard',
 	BMI: null,
-
-}
+	
+};
 
 var BMICalcController = {
 
@@ -30,7 +30,16 @@ var BMICalcController = {
 				let cm = Number(measurements.cm);
 				return (measurements.weight/(cm * cm)) * 10000;	
 		}
-	}
+	},
+
+	getBMI: function () {
+		return BMICalclModel.BMI ;
+	},
+
+	setBMI: function (bmi) {
+		BMICalclModel.BMI = bmi;
+	},
+
 
 }
 
@@ -69,7 +78,7 @@ var BMICalcView = {
 
 						if (lbs && ft && inch) {
 							let result = BMICalcController.calculateBMI('standard',{weight:lbs,ft:ft,in:inch});
-							BMICalclModel.BMI = result;
+							BMICalcController.setBMI(result);
 							BMICalcView.renderResults();
 						}
 						
@@ -82,7 +91,7 @@ var BMICalcView = {
 
 						if (kg && cm) {
 							let result = BMICalcController.calculateBMI('metric',{weight:kg,cm:cm});
-							BMICalclModel.BMI = result;
+							BMICalcController.setBMI(result);
 							BMICalcView.renderResults();
 						}
 				}
@@ -178,7 +187,8 @@ var BMICalcView = {
 	},
 
 	renderResults: function () {
-		let BMI = BMICalclModel.BMI ? BMICalclModel.BMI.toFixed(1) : '--.-' ;
+		let BMI = BMICalcController.getBMI() ? (BMICalcController.getBMI()).toFixed(1) : '--.-' ;
+
 		let resultsHTML = `
 			<div id="bmicalc-result">
 				<div id="bmicalc-number">
@@ -186,7 +196,6 @@ var BMICalcView = {
 				</div>
 
 				<div id="bmicalc-resources">
-					
 				</div>
 			</div>
 		`;
@@ -196,6 +205,6 @@ var BMICalcView = {
 		this.calcContainer.insertAdjacentHTML('beforeend', resultsHTML);
 
 	}
-}
+};
 
 BMICalcController.init();
