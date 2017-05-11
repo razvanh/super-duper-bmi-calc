@@ -4,23 +4,29 @@
   border: 1px #ccc solid;
   padding:0 1em 1em;
 
-  display:grid;
-  grid-template-columns: 50% 50%;
-  grid-template-rows: auto;
-
-  grid-template-areas: "calculator result";
-
-  align-items: center;
-  justify-items:center;
-
   & p{
     margin-top:0;
+    display:inline-block;
   }
 
   & h2 {
     margin-bottom:0;
+  } 
+
+  & input {
+    max-width:4em;
+  }
+
+  & label {
+    padding: 0 .5em 0 .2em;
+  }
+
+  & legend {
+    font-weight: bold;
   }
 }
+
+
 
 #bmicalc-number {
   font-size:3.6em;
@@ -30,3 +36,35 @@ fieldset {
   border:0;
   padding:1em 0;
 }
+
+@media all and (min-width:40em) {
+
+  @supports (display: grid) {
+    #bmicalc {
+      display:grid;
+      grid-template-columns: 60% 40%;
+      grid-template-rows: auto;
+      grid-column-gap: 1em;
+
+      grid-template-areas: "calculator result";
+
+      align-items: center;
+      justify-items:stretch;
+    }
+
+    form {
+      display:grid;
+      grid-template-columns: 50% 50%;
+      grid-template-rows:auto;
+
+      align-items: center;
+      justify-items:stretch;
+    }
+
+    .bmicalc-heading {
+      grid-column: 1 / span 2;
+    }
+  }
+
+}
+
