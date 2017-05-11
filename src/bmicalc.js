@@ -1,7 +1,12 @@
 var BMICalclModel = {
 	currentForm: 'standard',
 	BMI: null,
-	
+	message: {
+		underweight: 'Underweight',
+		normal: 'Normal Weight',
+		overweight: 'Overweight',
+		obese: 'Obese'
+	},
 };
 
 var BMICalcController = {
@@ -40,6 +45,22 @@ var BMICalcController = {
 		BMICalclModel.BMI = bmi;
 	},
 
+	getMessage : function (bmi) {
+		console.log(typeof(parseInt(bmi, 10)));
+		switch (true) {
+			case (Number(bmi) ===  NaN):
+				return '';
+			case (bmi >= 30):
+				return BMICalclModel.message['obese'];
+			case (bmi >= 25):
+				return BMICalclModel.message['overweight'];
+			case (bmi >= 18.5):
+				return BMICalclModel.message['normal'];		
+			default:
+				return BMICalclModel.message['underweight'];
+		};
+
+	},
 
 }
 
@@ -188,6 +209,7 @@ var BMICalcView = {
 
 	renderResults: function () {
 		let BMI = BMICalcController.getBMI() ? (BMICalcController.getBMI()).toFixed(1) : '--.-' ;
+		let message = BMICalcController.getMessage(BMI);
 
 		let resultsHTML = `
 			<div id="bmicalc-result">
@@ -196,6 +218,7 @@ var BMICalcView = {
 				</div>
 
 				<div id="bmicalc-resources">
+					${message}
 				</div>
 			</div>
 		`;
