@@ -46,9 +46,8 @@ var BMICalcController = {
 	},
 
 	getMessage : function (bmi) {
-		console.log(typeof(parseInt(bmi, 10)));
 		switch (true) {
-			case (Number(bmi) ===  NaN):
+			case isNaN(bmi):
 				return '';
 			case (bmi >= 30):
 				return BMICalclModel.message['obese'];
