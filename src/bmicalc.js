@@ -86,12 +86,15 @@ var BMICalcView = {
 
 		let currentForm = BMICalcController.getCurrentForm();
 
-		this.calcContainer = document.getElementById('bmicalc');
-		this.calcContainer.className += currentForm;
+		if (document.body.contains(document.getElementById('bmicalc'))) {
+
+				this.calcContainer = document.getElementById('bmicalc');
+				this.calcContainer.className += currentForm;
 
 
-		this.renderForm(currentForm);
-		this.renderResults();
+				this.renderForm(currentForm);
+				this.renderResults();
+				}
 
 		document.addEventListener('input',function(e){
 			let target = e.target || e.srcElement;
