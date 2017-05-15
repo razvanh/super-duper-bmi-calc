@@ -221,7 +221,7 @@ var BMICalcView = {
 				</div>
 			</div>
 		`;
-		if (document.contains(document.getElementById('bmicalc-result'))) {
+		if (document.body.contains(document.getElementById('bmicalc-result'))) {
 			document.getElementById('bmicalc-result').remove();
 		} 
 		this.calcContainer.insertAdjacentHTML('beforeend', resultsHTML);
