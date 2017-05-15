@@ -103,7 +103,7 @@ var BMICalcView = {
 						let ft = document.getElementById('bmicalc-height-ft').value >= 0 ? document.getElementById('bmicalc-height-ft').value : 0 ;
 						let inch = document.getElementById('bmicalc-height-in').value >= 0 ? document.getElementById('bmicalc-height-in').value : 0;
 
-						target.value = target.value > 0 ? target.value : 0;
+						target.value = target.value > 0 ? parseInt(target.value, 10) : 0;
 
 						if (inch > 11) {
 							target.value = 11;
@@ -124,7 +124,7 @@ var BMICalcView = {
 						let kg = document.getElementById('bmicalc-weight-metric').value >= 0 ? document.getElementById('bmicalc-weight-metric').value : 0; 
 						let cm = document.getElementById('bmicalc-height-cm').value >= 0 ? document.getElementById('bmicalc-height-cm').value : 0;
 
-						target.value = target.value > 0 ? target.value : 0;
+						target.value = target.value > 0 ? parseInt(target.value, 10) : 0;
 
 						if (kg && cm) {
 							let result = BMICalcController.calculateBMI('metric',{weight:kg,cm:cm});
