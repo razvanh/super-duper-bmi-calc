@@ -199,7 +199,7 @@ var BMICalcView = {
 
 		let currentForm = form === 'standard' ? standardFormHtml : metricFormHtml;
 
-		if (document.contains(document.getElementById('bmicalc-form'))) {
+		if (document.body.contains(document.getElementById('bmicalc-form'))) {
 			document.getElementById('bmicalc-form').remove();
 		}
 
