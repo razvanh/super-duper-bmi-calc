@@ -82,14 +82,11 @@ var BMICalcView = {
 					case 'bmicalc-weight-standard':
 					case 'bmicalc-height-ft':
 					case 'bmicalc-height-in':
-						let lbs = document.getElementById('bmicalc-weight-standard').value;
-						let ft = document.getElementById('bmicalc-height-ft').value;
-						let inch = document.getElementById('bmicalc-height-in').value;
+						let lbs = document.getElementById('bmicalc-weight-standard').value >= 0 ? document.getElementById('bmicalc-weight-standard').value : 0;
+						let ft = document.getElementById('bmicalc-height-ft').value >= 0 ? document.getElementById('bmicalc-height-ft').value : 0 ;
+						let inch = document.getElementById('bmicalc-height-in').value >= 0 ? document.getElementById('bmicalc-height-in').value : 0;
 
-						if (inch < 0 ) {
-							target.value = 0;
-							inch = 0;
-						}
+						target.value = target.value > 0 ? target.value : 0;
 
 						if (inch > 11) {
 							target.value = 11;
@@ -106,8 +103,11 @@ var BMICalcView = {
 						break;
 					case 'bmicalc-weight-metric':
 					case 'bmicalc-height-cm':
-						let kg = document.getElementById('bmicalc-weight-metric').value; 
-						let cm = document.getElementById('bmicalc-height-cm').value;
+
+						let kg = document.getElementById('bmicalc-weight-metric').value >= 0 ? document.getElementById('bmicalc-weight-metric').value : 0; 
+						let cm = document.getElementById('bmicalc-height-cm').value >= 0 ? document.getElementById('bmicalc-height-cm').value : 0;
+
+						target.value = target.value > 0 ? target.value : 0;
 
 						if (kg && cm) {
 							let result = BMICalcController.calculateBMI('metric',{weight:kg,cm:cm});
