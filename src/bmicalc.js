@@ -250,3 +250,4 @@ var BMICalcView = {
 };
 
 BMICalcController.init();
+console.log('test');
