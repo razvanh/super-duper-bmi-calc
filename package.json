@@ -2,8 +2,9 @@
   "name": "uihc-bmi-calculator",
   "version": "1.0.0",
   "scripts": {
+    "test": "jest",
     "build": "babel src -d lib",
-    "start": "concurrently \"browser-sync start --server --files '**/*.css, *.html, **/*.js, !node_modules/**/*' --directory --port 7777 --browser 'firefox'\" \"node-sass --watch src -o lib\" \"babel src -d lib --watch\""
+    "start": "concurrently \"browser-sync start --server --files '**/*.css, *.html, **/*.js, !node_modules/**/*' --directory --port 7777 --browser 'firefox'\" \"node-sass --watch src -o lib\" \"babel src -d lib --ignore *.test.js --watch \""
   },
   "devDependencies": {
     "babel-cli": "^6.0.0",

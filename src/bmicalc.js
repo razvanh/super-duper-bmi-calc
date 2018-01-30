@@ -47,10 +47,10 @@ var BMICalcController = {
 		switch (mode) {
 			case 'standard':
 				let height = (Number(12*measurements.ft) + Number(measurements.in));
-				return (measurements.weight/(height * height)) * 703;
+				return (((measurements.weight/(height * height)) * 703).toFixed(1))/1; //toFixed returns a string
 			case 'metric':
 				let cm = Number(measurements.cm);
-				return (measurements.weight/(cm * cm)) * 10000;	
+				return (((measurements.weight/(cm * cm)) * 10000).toFixed(1))/1;	
 		}
 	},
 
@@ -227,7 +227,7 @@ var BMICalcView = {
 	},
 
 	renderResults: function () {
-		let BMI = BMICalcController.getBMI() ? (BMICalcController.getBMI()).toFixed(1) : '--.-' ;
+		let BMI = BMICalcController.getBMI() ? (BMICalcController.getBMI()) : '--.-' ;
 		let message = BMICalcController.getMessage(BMI);
 
 		let resultsHTML = `
@@ -250,4 +250,4 @@ var BMICalcView = {
 };
 
 BMICalcController.init();
-console.log('test');
+module.exports = BMICalcController;
